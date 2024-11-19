@@ -9,7 +9,6 @@
 #include <algorithm> // for trim
 using namespace std;
 
-// Finite Automaton class
 class FiniteAutomaton {
 private:
     unordered_set<string> states;
@@ -140,7 +139,7 @@ private:
         if (initialState.empty()) {
             cerr << "Error: Initial state not specified or incorrectly formatted." << endl;
         } else {
-            cout << "Debug: Parsed Initial State: " << initialState << endl; // Debug output
+            cout << "ce states initiale: " << initialState << endl;
         }
     }
 
@@ -159,9 +158,9 @@ private:
         if (finalStates.empty()) {
             cerr << "Error: No final states specified or incorrectly formatted." << endl;
         } else {
-            cout << "Debug: Parsed Final States: ";
+            cout << "ce states finale: ";
             for (const auto& state : finalStates) cout << state << " ";
-            cout << endl; // Debug output
+            cout << endl;
         }
     }
 
@@ -173,17 +172,13 @@ private:
     }
 };
 
-// Main function
 int main() {
     FiniteAutomaton automaton;
 
-    // Read automaton from file
     automaton.readFromFile("FA.in");
 
-    // Display the automaton
     automaton.display();
 
-    // BONUS: Test if a string is a valid token
     string testString;
     cout << "Enter a string to validate: ";
     cin >> testString;
