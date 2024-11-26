@@ -1,0 +1,48 @@
+# Context-Free Grammar for the antonelanguage
+
+# Non-terminals (N)
+N = {<program>, <declist>, <type>, <bundle>, <declaration>, <stmtlist>, <stmt>, <simplstmt>, <assignstmt>, 
+<iostmt>, <structstmt>, <cmpdstmt>, <ifstmt>, <whilestmt>, <forstmt>, <condition>, <relation>, <expression>,
+ <term>, <factor>, <constant>, <integer>, <noconst>, <no>, <character>, <string>, <char>, <identifier>, 
+ <letter>, <digit>}
+
+# Terminals (Σ)
+
+Σ = {"antonelgram", ";", "Lights out", "Checkered flag", "int", "char", "string", "bundle", "bool", "[", "]", "of",
+    "=", "re", "(", ")", "wr", "begin", "end", "iftry", "then", "elsetry", "while", "do", "for", ":=", "to", "<", "<=", 
+    "=", "<>", ">=", ">", "+", "-", "*", "/", "@", "a" | "b" | ... | "z" | "Ă" | "Â" | "Î" | "Ț" | "Ș", "0" | "1" | ... | "9"}
+
+# Syntactical rules (P)
+<program> -> "antonelgram" <identifier> ";" <declist> "Lights out" <stmtlist> "Checkered flag"
+<declist> -> <declaration> | <declaration> ";" <declist>
+<type> -> "int" | "char" | "string" | "bundle" | "bool"
+<bundle> -> "bundle" "[" <number_of_elements> "]" "of" <type> <identifier>
+<declaration> -> <type> <identifier> | <bundle>
+<stmtlist> -> <stmt> | <stmt> ";" <stmtlist>
+<stmt> -> <simplstmt> | <structstmt>
+<simplstmt> -> <assignstmt> | <iostmt>
+<assignstmt> -> <identifier> "=" <expression>
+<iostmt> -> "re" "(" <identifier> ")" | "wr" "(" <expression> ")"
+<structstmt> -> <ifstmt> | <whilestmt> | <forstmt> | <cmpdstmt>
+<cmpdstmt> -> "begin" <stmtlist> "end"
+<ifstmt> -> "iftry" <condition> "then" <stmt> ["elsetry" <stmt>]
+<whilestmt> -> "while" <condition> "do" <stmt>
+<forstmt> -> "for" <identifier> ":=" <expression> "to" <expression> "do" <stmt>
+<condition> -> <expression> <relation> <expression>
+<relation> -> "<" | "<=" | "=" | "<>" | ">=" | ">"
+<expression> -> <term> {("+" | "-") <term>}
+<term> -> <factor> {("*" | "/") <factor>}
+<factor> -> "(" <expression> ")" | <identifier> | <constant>
+<constant> -> <integer> | <character> | <string>
+<integer> -> <noconst>
+<noconst> -> "+" <no> | "-" <no> | <no>
+<no> -> <digit> {<no>}
+<character> -> <letter> | <digit>
+<string> -> <char> {<string>}
+<char> -> <letter> | <digit>
+<identifier> -> "@" <letter> {<letter> | <digit> | "_"}
+<letter> -> "a" | "b" | ... | "z" | "Ă" | "Â" | "Î" | "Ț" | "Ș"
+<digit> -> "0" | "1" | ... | "9"
+
+# Start symbol (S)
+S = <program>
