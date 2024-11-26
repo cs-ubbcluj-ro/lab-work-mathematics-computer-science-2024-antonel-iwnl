@@ -2,12 +2,11 @@
 
 # Non-terminals (N)
 N = {<program>, <declist>, <type>, <bundle>, <declaration>, <stmtlist>, <stmt>, <simplstmt>, <assignstmt>, 
-<iostmt>, <structstmt>, <cmpdstmt>, <ifstmt>, <whilestmt>, <forstmt>, <condition>, <relation>, <expression>,
+<iostmt>, <structstmt>, <ifstmt>, <whilestmt>, <forstmt>, <condition>, <relation>, <expression>,
  <term>, <factor>, <constant>, <integer>, <noconst>, <no>, <character>, <string>, <char>, <identifier>, 
  <letter>, <digit>}
 
 # Terminals (Σ)
-
 Σ = {"antonelgram", ";", "Lights out", "Checkered flag", "int", "char", "string", "bundle", "bool", "[", "]", "of",
     "=", "re", "(", ")", "wr", "begin", "end", "iftry", "then", "elsetry", "while", "do", "for", ":=", "to", "<", "<=", 
     "=", "<>", ">=", ">", "+", "-", "*", "/", "@", "a" | "b" | ... | "z" | "Ă" | "Â" | "Î" | "Ț" | "Ș", "0" | "1" | ... | "9"}
@@ -23,24 +22,24 @@ N = {<program>, <declist>, <type>, <bundle>, <declaration>, <stmtlist>, <stmt>, 
 <simplstmt> -> <assignstmt> | <iostmt>
 <assignstmt> -> <identifier> "=" <expression>
 <iostmt> -> "re" "(" <identifier> ")" | "wr" "(" <expression> ")"
-<structstmt> -> <ifstmt> | <whilestmt> | <forstmt> | <cmpdstmt>
-<cmpdstmt> -> "begin" <stmtlist> "end"
-<ifstmt> -> "iftry" <condition> "then" <stmt> ["elsetry" <stmt>]
+<structstmt> -> <ifstmt> | <whilestmt> | <forstmt>
+<ifstmt> -> "iftry" <condition> "then" <stmt> | "iftry" <condition> "then" <stmt> "elsetry" <stmt>
 <whilestmt> -> "while" <condition> "do" <stmt>
 <forstmt> -> "for" <identifier> ":=" <expression> "to" <expression> "do" <stmt>
 <condition> -> <expression> <relation> <expression>
 <relation> -> "<" | "<=" | "=" | "<>" | ">=" | ">"
-<expression> -> <term> {("+" | "-") <term>}
-<term> -> <factor> {("*" | "/") <factor>}
+<expression> -> <term> "+" <term> | <term> "-" <term>
+<term> -> <factor> "*" <factor> | <factor> "/" <factor>
 <factor> -> "(" <expression> ")" | <identifier> | <constant>
 <constant> -> <integer> | <character> | <string>
 <integer> -> <noconst>
 <noconst> -> "+" <no> | "-" <no> | <no>
-<no> -> <digit> {<no>}
+<no> -> <digit> | <digit> <no>
 <character> -> <letter> | <digit>
-<string> -> <char> {<string>}
+<string> -> <char> | <char> <string>
 <char> -> <letter> | <digit>
-<identifier> -> "@" <letter> {<letter> | <digit> | "_"}
+<identifier> -> "@" <identifier_name>
+<identifier_name> -> <letter> | <letter> <identifier_name> | <digit> | <digit> <identifier_name> | <letter> "_" <letter> <identifier>
 <letter> -> "a" | "b" | ... | "z" | "Ă" | "Â" | "Î" | "Ț" | "Ș"
 <digit> -> "0" | "1" | ... | "9"
 
